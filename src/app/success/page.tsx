@@ -6,6 +6,7 @@ import Icons from "@/assets/icons";
 import mainImage from "@/assets/images/success.svg";
 import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
+import Logo from "@/assets/images/logo.png";
 
 export default function SuccessPage() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function SuccessPage() {
             width={51}
             height={71}
             className="mb-6 self-end w-[51px] h-[71px]"
-            src={Icons.LogoBlack}
+            src={Logo}
             alt="blocfx"
             unoptimized
             priority

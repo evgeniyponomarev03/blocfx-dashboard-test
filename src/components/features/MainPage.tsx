@@ -11,7 +11,6 @@ import { useState } from "react";
 import Navigation from "../widgets/Navigation";
 
 export default function MainPage() {
-  // TODO: use the user data from the session to display the user name and avatar
   const router = useRouter();
   const { data } = useSession();
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -20,13 +19,11 @@ export default function MainPage() {
     setIsFullScreen(!isFullScreen);
   };
 
-  console.log(data?.user);
-
   return (
     <div className={"container-main max-w-[390px] mx-auto min-h-dvh relative"}>
       <div
         className={
-          "black-part w-full h-[40vh] bg-black rounded-tl-2xl rounded-tr-2xl text-white pt-10 px-2.5"
+          "black-part w-full h-[40vh] bg-black rounded-tl-2xl rounded-tr-2xl text-white pt-5 px-2.5"
         }
       >
         <div className={"user-info flex gap-2 px-2 items-center"}>
@@ -43,17 +40,15 @@ export default function MainPage() {
             />
           </div>
 
-          {/*TODO: use the user data from the session to display the user name*/}
-
           <div className={"user-name"}>
-            <p className={"text-lg"}>User 1</p>
+            <p className={"text-lg"}>{data?.user.fullName}</p>
           </div>
         </div>
         <p className={"px-2 font-thin text-[12px]"}>Quick Actions</p>
         <div className={"buttons px-2 py-1 flex items-center gap-3.5"}>
           <button
             className={
-              "bg-grey py-3 px-5 rounded-[12px] flex items-center gap-2 font-thin text-[16px]"
+              "bg-grey py-2 px-5 rounded-[12px] flex items-center gap-2 font-thin text-[16px]"
             }
             onClick={() => router.push("/transfer")}
           >
@@ -68,7 +63,7 @@ export default function MainPage() {
           </button>
           <button
             className={
-              "bg-grey py-3 px-5 rounded-[12px] flex items-center gap-2 font-thin text-[16px]"
+              "bg-grey py-2 px-5 rounded-[12px] flex items-center gap-2 font-thin text-[16px]"
             }
             onClick={() => router.push("/transfer")}
           >
@@ -86,11 +81,11 @@ export default function MainPage() {
       </div>
 
       <div
-        className={`content bg-white rounded-2xl mx-auto text-[#26273A] transition-all duration-300 overflow-hidden select-none cursor-all-scroll
+        className={`bg-white rounded-2xl absolute bottom-0 mx-auto text-[#26273A] transition-all duration-300 overflow-hidden select-none cursor-all-scroll left-5 
         ${
           isFullScreen
-            ? "w-full h-[100dvh] absolute top-0 mt-0 rounded-none"
-            : "w-[350px] h-[64dvh] mt-[-40px]"
+            ? "w-full h-[100svh] absolute top-0 mt-0 rounded-none"
+            : "w-[350px] h-[60svh]"
         }`}
       >
         <div

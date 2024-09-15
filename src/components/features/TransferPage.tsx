@@ -12,17 +12,19 @@ import { useEffect, useState } from "react";
 import api from "@/axios/api";
 import CURRENCIES from "@/constants/currencies";
 import Navigation from "../widgets/Navigation";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const transferSchema = yup.object().shape({
-  senderAccountNumber: yup
-    .string()
-    .min(4, "Minimum 4 chars.")
-    .required("Address is required."),
+  // senderAccountNumber: yup
+  //   .string()
+  //   .min(4, "Minimum 4 chars.")
+  //   .required("Address is required."),
   swift: yup
     .string()
     .matches(
       /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/,
-      "Invalid BIC/SWIFT code"
+      "Invalid BIC/SWIFT code",
     )
     .required("BIC/SWIFT code is required"),
   requesteeName: yup.string().required("Name is required"),
@@ -31,7 +33,7 @@ const transferSchema = yup.object().shape({
 });
 
 type TransferValues = {
-  senderAccountNumber: string;
+  // senderAccountNumber: string;
   swift: string;
   requesteeName: string;
   amount: string;
@@ -39,6 +41,7 @@ type TransferValues = {
 };
 
 function formatBalance(num: number) {
+  if (!num) return "";
   let [integerPart, decimalPart] = num.toFixed(2).split(".");
 
   const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -47,6 +50,8 @@ function formatBalance(num: number) {
 }
 
 const TransferPage = () => {
+  const router = useRouter();
+  const session = useSession();
   const {
     register,
     handleSubmit,
@@ -58,14 +63,16 @@ const TransferPage = () => {
     resolver: yupResolver(transferSchema),
   });
   const [currency, setCurrency] = useState<keyof typeof CURRENCIES>("USD");
-  const [balance, setBalance] = useState<null | number>(null);
+  const [balanceData, setBalanceData] = useState<null | any>(null);
   const [isBalanceLoading, setIsBalanceLoading] = useState(false);
+
+  const balance = balanceData?.data?.balance;
 
   useEffect(() => {
     setIsBalanceLoading(true);
     api
       .get(`/users/cards/balance?currency=${currency}`)
-      .then((res) => setBalance(res.data.data?.balance))
+      .then((res) => setBalanceData(res.data))
       .finally(() => setIsBalanceLoading(false));
   }, [currency]);
 
@@ -75,7 +82,9 @@ const TransferPage = () => {
         ...values,
         amount: +values.amount,
         currency,
+        senderAccountNumber: session.data?.user?.accountNumber,
       });
+      router.push("/success");
     } catch (err) {
       console.log(err);
       alert((err as any).response.data.message);
@@ -116,24 +125,24 @@ const TransferPage = () => {
           the amount of transfer request in below field.
         </p>
         {balance === 0 && (
-          <p className="font-bold text-[red]">
+          <p className="font-bold text-sm text-[red]">
             You have no available balance to send.
           </p>
         )}
         {!!balance && (
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-[35px]">
+            {/* <div className="mb-[35px]">
               <Input
                 {...register("senderAccountNumber")}
                 label="Sender’s Account No."
               />
-              <p className="opacity-50 min-h-4 md:min-h-6">
+              <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
                 {errors?.senderAccountNumber?.message}
               </p>
-            </div>
+            </div> */}
             <div className="mb-[15px]">
               <Input {...register("swift")} label="BIC/SWIFT" />
-              <p className="opacity-50 min-h-4 md:min-h-6">
+              <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
                 {errors?.swift?.message}
               </p>
             </div>
@@ -143,13 +152,13 @@ const TransferPage = () => {
                 label="Amount of Transfer Request"
                 type="number"
               />
-              <p className="opacity-50 min-h-4 md:min-h-6">
+              <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
                 {errors?.amount?.message}
               </p>
             </div>
             <div className="mb-[15px]">
               <Input {...register("requesteeName")} label="Requestee’s Name" />
-              <p className="opacity-50 min-h-4 md:min-h-6">
+              <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
                 {errors?.requesteeName?.message}
               </p>
             </div>
@@ -170,7 +179,7 @@ const TransferPage = () => {
                   />
                 )}
               />
-              <p className="opacity-50 min-h-4 md:min-h-6">
+              <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
                 {errors?.country?.message}
               </p>
             </div>
@@ -179,7 +188,6 @@ const TransferPage = () => {
             </Button>
           </form>
         )}
-        <Navigation />
       </Container>
     </section>
   );

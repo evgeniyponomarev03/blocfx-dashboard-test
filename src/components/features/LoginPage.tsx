@@ -11,6 +11,7 @@ import InputPassword from "../ui/InputPassword";
 import Button from "../ui/Button";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Logo from "@/assets/images/logo.png";
 
 const loginInSchema = yup.object().shape({
   email: yup.string().email("Invalid email.").required("Email is required."),
@@ -39,7 +40,7 @@ const Login = () => {
       ...values,
       redirect: false,
     });
-    console.log(res);
+
     if (res?.error) {
       alert("Login failed");
     } else {
@@ -54,7 +55,7 @@ const Login = () => {
           width={51}
           height={71}
           className="mb-8 w-[51px] h-[71px]"
-          src={Icons.LogoBlack}
+          src={Logo}
           alt="blocfx"
           priority
           unoptimized
