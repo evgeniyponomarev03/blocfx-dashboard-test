@@ -81,11 +81,11 @@ export default function MainPage() {
       </div>
 
       <div
-        className={`bg-white rounded-2xl absolute bottom-0 mx-auto text-[#26273A] transition-all duration-300 overflow-hidden select-none cursor-all-scroll left-5 
+        className={`bg-white rounded-2xl absolute bottom-0 mx-auto text-[#26273A] transition-all duration-300 overflow-hidden select-none cursor-all-scroll 
         ${
           isFullScreen
-            ? "w-full h-[100svh] absolute top-0 mt-0 rounded-none"
-            : "w-[350px] h-[60svh]"
+            ? "w-full h-[100svh] absolute top-0 left-0 rounded-none"
+            : "w-[350px] h-[60svh] left-5"
         }`}
       >
         <div
