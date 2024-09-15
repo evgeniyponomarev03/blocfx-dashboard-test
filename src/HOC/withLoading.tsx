@@ -4,9 +4,9 @@ import Spinner from "@/components/ui/Spiner";
 
 const withLoading = (
   WrappedComponent: React.ComponentType<any>,
-  fetchData: () => Promise<any>,
+  fetchData: () => Promise<any>
 ) => {
-  return (props: any) => {
+  const Wrapped = (props: any) => {
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -37,6 +37,7 @@ const withLoading = (
       />
     );
   };
+  return Wrapped;
 };
 
 export default withLoading;

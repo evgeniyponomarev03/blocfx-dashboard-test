@@ -1,15 +1,14 @@
 "use client";
 
-import React from "react";
 import Container from "@/components/ui/Container";
 import Image from "next/image";
 import Icons from "@/assets/icons";
 import mainImage from "@/assets/images/success.svg";
 import Button from "@/components/ui/Button";
-import { useGoHome } from "@/utils/navigation";
+import { useRouter } from "next/navigation";
 
 export default function SuccessPage() {
-  const goHome = useGoHome();
+  const router = useRouter();
   return (
     <section className="py-8">
       <Container>
@@ -37,7 +36,7 @@ export default function SuccessPage() {
           </p>
           <Button
             className="mt-12 bg-[#26273A] px-12 py-3 rounded-[50px]"
-            onClick={goHome}
+            onClick={() => router.push("/")}
           >
             Great!
           </Button>
