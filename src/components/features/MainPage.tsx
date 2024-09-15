@@ -1,27 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
 import Image from "next/image";
 import User from "@/assets/images/user.png";
 import Icons from "@/assets/icons";
-import { useGoHome, useGoTransfer } from "@/utils/navigation";
 import TransactionsList from "@/components/features/TransactionsList";
 import UserCards from "@/components/features/UserCards";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Navigation from "../widgets/Navigation";
 
 export default function MainPage() {
+  // TODO: use the user data from the session to display the user name and avatar
+  const router = useRouter();
+  const { data } = useSession();
   const [isFullScreen, setIsFullScreen] = useState(false);
-
-  const goToTransfer = useGoTransfer();
-  const goHome = useGoHome();
 
   const toggleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
   };
 
-  // TODO: use the user data from the session to display the user name and avatar
-
-  const { data } = useSession();
   console.log(data?.user);
 
   return (
@@ -57,7 +55,7 @@ export default function MainPage() {
             className={
               "bg-grey py-3 px-5 rounded-[12px] flex items-center gap-2 font-thin text-[16px]"
             }
-            onClick={goToTransfer}
+            onClick={() => router.push("/transfer")}
           >
             <Image
               src={Icons.Transfer}
@@ -72,7 +70,7 @@ export default function MainPage() {
             className={
               "bg-grey py-3 px-5 rounded-[12px] flex items-center gap-2 font-thin text-[16px]"
             }
-            onClick={toggleFullScreen}
+            onClick={() => router.push("/transfer")}
           >
             <Image
               src={Icons.Star}
@@ -111,58 +109,7 @@ export default function MainPage() {
 
         <TransactionsList />
       </div>
-
-      <div
-        className={
-          "w-full h-[10dvh] bg-white rounded-bl-2xl rounded-br-2xl py-5 px-8 absolute bottom-0 opacity-95 flex items-center gap-8 backdrop-blur-[2.5px]"
-        }
-      >
-        <div
-          className={
-            "flex flex-col items-center justify-between h-full cursor-pointer"
-          }
-          onClick={goHome}
-        >
-          <Image
-            src={Icons.HomeIcon}
-            alt={"Home"}
-            width={20}
-            height={20}
-            className={"w-[20px] h-[20px]"}
-          />
-          <p className={"text-[12px]"}>Home</p>
-        </div>
-        <div
-          className={
-            "flex flex-col items-center justify-between h-full cursor-pointer"
-          }
-          onClick={toggleFullScreen}
-        >
-          <Image
-            src={Icons.TransferIconBlack}
-            alt={"transfer icon"}
-            width={22}
-            height={22}
-            className={"w-[22px] h-[22px]"}
-          />
-          <p className={"text-[12px]"}>Transactions</p>
-        </div>
-        <div
-          className={
-            "flex flex-col items-center justify-between h-full cursor-pointer"
-          }
-          onClick={goHome}
-        >
-          <Image
-            src={Icons.ShowMore}
-            alt={"show more"}
-            width={20}
-            height={20}
-            className={"w-[20px] h-[20px]"}
-          />
-          <p className={"text-[12px]"}>More</p>
-        </div>
-      </div>
+      <Navigation />
     </div>
   );
 }

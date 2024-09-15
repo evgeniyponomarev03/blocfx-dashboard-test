@@ -69,6 +69,8 @@ export const options: NextAuthOptions = {
       if (user) {
         token.accessToken = user?.accessToken;
         token.refreshToken = user?.refreshToken;
+        token.user = user.user;
+
         return token;
       }
 
@@ -78,7 +80,7 @@ export const options: NextAuthOptions = {
         const { accessToken, refreshToken } = await refreshAccessToken({
           refreshToken: token.refreshToken,
         });
-       
+
         token.accessToken = accessToken;
         token.refreshToken = refreshToken;
         return token;
@@ -89,6 +91,7 @@ export const options: NextAuthOptions = {
     async session({ session, token }) {
       session.accessToken = token.accessToken;
       session.refreshToken = token.refreshToken;
+      session.user = token.user;
 
       return session;
     },

@@ -8,15 +8,14 @@ type UserData = {
 declare module "next-auth" {
   interface User extends DefaultUser {
     accessToken: string;
-    refreshToken: string
+    refreshToken: string;
     user: UserData;
   }
 
   interface Session {
     accessToken: string;
     refreshToken: string;
-    user: Omit<User, "userData"> &
-      Omit<User["userData"], "accessToken" | "refreshToken">;
+    user: any;
   }
 }
 
@@ -24,6 +23,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     accessToken: string;
     refreshToken: string;
+    user: any;
     exp: number;
   }
 }

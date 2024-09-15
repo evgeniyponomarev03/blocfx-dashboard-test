@@ -11,6 +11,7 @@ import CountryAutocomplete from "../ui/CountryAutocomplete";
 import { useEffect, useState } from "react";
 import api from "@/axios/api";
 import CURRENCIES from "@/constants/currencies";
+import Navigation from "../widgets/Navigation";
 
 const transferSchema = yup.object().shape({
   senderAccountNumber: yup
@@ -72,6 +73,7 @@ const TransferPage = () => {
     try {
       await api.post("/transfers", {
         ...values,
+        amount: +values.amount,
         currency,
       });
     } catch (err) {
@@ -177,6 +179,7 @@ const TransferPage = () => {
             </Button>
           </form>
         )}
+        <Navigation />
       </Container>
     </section>
   );
