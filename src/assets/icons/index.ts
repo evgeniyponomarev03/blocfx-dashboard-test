@@ -13,6 +13,7 @@ import TransferIconBlack from "./transfer_icon-black.svg";
 import ShowMore from "./show_more.svg";
 import Quit from "./quit.svg";
 import Close from "./close.svg";
+import ArrowBack from "./arrow-back.svg";
 
 const Icons = {
   LogoBlack,
@@ -30,6 +31,7 @@ const Icons = {
   ShowMore,
   Quit,
   Close,
+  ArrowBack,
 };
 
 export default Icons;

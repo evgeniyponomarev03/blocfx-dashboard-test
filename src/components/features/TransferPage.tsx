@@ -4,6 +4,7 @@ import Container from "../ui/Container";
 import Input from "../ui/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
+import Image from "next/image";
 import * as yup from "yup";
 import Button from "../ui/Button";
 import { Select, Option } from "../ui/Select";
@@ -15,6 +16,7 @@ import Navigation from "../widgets/Navigation";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { formatBalance } from "@/utils/formatBalance";
+import Icons from "@/assets/icons";
 
 const transferSchema = yup.object().shape({
   iban: yup
@@ -86,7 +88,15 @@ const TransferPage = () => {
   return (
     <section className="py-8">
       <Container>
-        <h1 className="font-bold text-xl mb-7">Transfer Request</h1>
+        <div className="flex gap-2 items-center mb-7">
+          <button
+            onClick={() => router.back()}
+            className="bg-yankees-blue py-3 px-5 rounded-3xl"
+          >
+            <Image src={Icons.ArrowBack} alt="back" />
+          </button>
+          <h1 className="font-bold text-xl">Transfer Request</h1>
+        </div>
         <div className="flex justify-between items-center mb-6">
           <p className="text-lg text-taupe-gray font-medium">
             Available Balance
@@ -124,13 +134,21 @@ const TransferPage = () => {
         {!!balance && (
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-[15px]">
-              <Input {...register("iban")} label="IBAN" />
+              <Input
+                {...register("iban")}
+                label="IBAN"
+                placeholder="IBAN (e.g., DE89370400440532013000)"
+              />
               <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
                 {errors?.iban?.message}
               </p>
             </div>
             <div className="mb-[15px]">
-              <Input {...register("swift")} label="BIC/SWIFT" />
+              <Input
+                {...register("swift")}
+                placeholder="SWIFT code (e.g., ABCDGB2L)"
+                label="BIC/SWIFT"
+              />
               <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
                 {errors?.swift?.message}
               </p>
