@@ -36,7 +36,9 @@ export default function MainPage() {
           </div>
           <button
             title="sign out"
-            onClick={() => signOut()}
+            onClick={() =>
+              signOut().then(() => router.push("https://www.blocfx.eu/"))
+            }
             className="p-2 rounded-full border border-grey"
           >
             <Image width={20} height={20} src={Icons.Quit} alt="sign out" />
@@ -54,7 +56,7 @@ export default function MainPage() {
           <ActionButton
             icon={Icons.Star}
             label="Transactions"
-            onClick={() => router.push("/transactions")}
+            onClick={toggleFullScreen}
           />
         </div>
 
@@ -83,7 +85,7 @@ export default function MainPage() {
         <TransactionsList />
       </div>
 
-      <Navigation />
+      <Navigation toggleFullScreen={toggleFullScreen} />
     </div>
   );
 }

@@ -5,13 +5,8 @@ import Icons from "@/assets/icons";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const Navigation = () => {
+const Navigation = ({ toggleFullScreen }: { toggleFullScreen: () => void }) => {
   const router = useRouter();
-  const [isFullScreen, setIsFullScreen] = useState(false);
-
-  const toggleFullScreen = () => {
-    setIsFullScreen(!isFullScreen);
-  };
 
   return (
     <div
