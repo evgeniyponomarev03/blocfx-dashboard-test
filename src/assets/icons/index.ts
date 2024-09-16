@@ -11,6 +11,8 @@ import EUR from "./euro.svg";
 import HomeIcon from "./home_icon.svg";
 import TransferIconBlack from "./transfer_icon-black.svg";
 import ShowMore from "./show_more.svg";
+import Quit from "./quit.svg";
+import Close from "./close.svg";
 
 const Icons = {
   LogoBlack,
@@ -26,6 +28,8 @@ const Icons = {
   HomeIcon,
   TransferIconBlack,
   ShowMore,
+  Quit,
+  Close,
 };
 
 export default Icons;

@@ -14,17 +14,18 @@ import CURRENCIES from "@/constants/currencies";
 import Navigation from "../widgets/Navigation";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { formatBalance } from "@/utils/formatBalance";
 
 const transferSchema = yup.object().shape({
-  // senderAccountNumber: yup
-  //   .string()
-  //   .min(4, "Minimum 4 chars.")
-  //   .required("Address is required."),
+  iban: yup
+    .string()
+    .matches(/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/, "Invalid IBAN")
+    .required("IBAN is required."),
   swift: yup
     .string()
     .matches(
       /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/,
-      "Invalid BIC/SWIFT code",
+      "Invalid BIC/SWIFT code"
     )
     .required("BIC/SWIFT code is required"),
   requesteeName: yup.string().required("Name is required"),
@@ -33,21 +34,12 @@ const transferSchema = yup.object().shape({
 });
 
 type TransferValues = {
-  // senderAccountNumber: string;
+  iban: string;
   swift: string;
   requesteeName: string;
   amount: string;
   country: string;
 };
-
-function formatBalance(num: number) {
-  if (!num) return "";
-  let [integerPart, decimalPart] = num.toFixed(2).split(".");
-
-  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-  return `${formattedInteger}.${decimalPart}`;
-}
 
 const TransferPage = () => {
   const router = useRouter();
@@ -131,15 +123,12 @@ const TransferPage = () => {
         )}
         {!!balance && (
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/* <div className="mb-[35px]">
-              <Input
-                {...register("senderAccountNumber")}
-                label="Sender’s Account No."
-              />
+            <div className="mb-[15px]">
+              <Input {...register("iban")} label="IBAN" />
               <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
-                {errors?.senderAccountNumber?.message}
+                {errors?.iban?.message}
               </p>
-            </div> */}
+            </div>
             <div className="mb-[15px]">
               <Input {...register("swift")} label="BIC/SWIFT" />
               <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
