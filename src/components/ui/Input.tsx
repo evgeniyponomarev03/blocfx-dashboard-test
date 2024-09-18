@@ -28,8 +28,7 @@ const Input = forwardRef((props: InputProps & Props, ref: any) => {
         </label>
       )}
       <BaseInput
-        onBlur={() => setIsFocus(false)}
-        onFocus={() => setIsFocus(true)}
+        {...props}
         id={id}
         ref={ref}
         slotProps={{
@@ -48,7 +47,14 @@ const Input = forwardRef((props: InputProps & Props, ref: any) => {
             };
           },
         }}
-        {...props}
+        onBlur={(e) => {
+          setIsFocus(false);
+          props.onBlur && props.onBlur(e);
+        }}
+        onFocus={(e) => {
+          setIsFocus(true);
+          props.onFocus && props.onFocus(e);
+        }}
       />
     </>
   );

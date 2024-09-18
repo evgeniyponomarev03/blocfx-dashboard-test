@@ -3,24 +3,31 @@
 import Image from "next/image";
 import Container from "../ui/Container";
 import Input from "../ui/Input";
-import Icons from "@/assets/icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
-import InputPassword from "../ui/InputPassword";
 import Button from "../ui/Button";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Logo from "@/assets/images/logo.png";
+import PhoneNumberInput from "../ui/PhoneInput";
+import api from "@/axios/api";
 
 const loginInSchema = yup.object().shape({
   email: yup.string().email("Invalid email.").required("Email is required."),
-  password: yup.string().min(4, "Minimum 4 chars."),
+  phone: yup
+    .string()
+    .matches(
+      /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
+      "Phone number is not valid"
+    )
+    .required("Phone is required."),
+  // password: yup.string().min(4, "Minimum 4 chars."),
 });
 
 type LogInValues = {
   email: string;
-  password?: string;
+  phone: string;
+  // password?: string;
 };
 
 const Login = () => {
@@ -28,6 +35,8 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    control,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<LogInValues>({
     mode: "all",
@@ -36,16 +45,24 @@ const Login = () => {
   });
 
   const onSubmit = async (values: LogInValues) => {
-    const res = await signIn("credentials", {
-      ...values,
-      redirect: false,
-    });
-
-    if (res?.error) {
-      alert("Login failed");
-    } else {
-      router.push("/");
+    try {
+      const res = await api.post("/auth/login", {
+        ...values,
+      });
+      router.push(res.data?.verification_url);
+    } catch {
+      alert("Failed to log in.");
     }
+    // const res = await signIn("credentials", {
+    //   ...values,
+    //   redirect: false,
+    // });
+
+    // if (res?.error) {
+    //   alert("Login failed");
+    // } else {
+    //   router.push("/");
+    // }
   };
 
   return (
@@ -65,18 +82,45 @@ const Login = () => {
 
           <div className="mb-[35px]">
             <Input {...register("email")} label="Email Address" />
-            <p className="opacity-50 min-h-4 md:min-h-6">
+            <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
               {errors?.email?.message}
             </p>
           </div>
-          <div className="mb-[50px]">
+          <div className="mb-[35px]">
+            <Controller
+              name="phone"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  onChange={(e) => {
+                    let newValue = e.target.value;
+
+                    if (!newValue.startsWith("+")) {
+                      newValue = `+${newValue.replace(/[^0-9]/g, "")}`;
+                    }
+
+                    newValue = newValue.replace(/[^0-9+]/g, "");
+                    field.onChange(newValue);
+                  }}
+                  label="Phone"
+                />
+              )}
+            />
+
+            <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
+              {errors?.phone?.message}
+            </p>
+          </div>
+
+          {/* <div className="mb-[50px]">
             <InputPassword {...register("password")} />
             <p className="opacity-50 min-h-4 md:min-h-6">
               {errors?.password?.message}
             </p>
-          </div>
+          </div> */}
           <Button disabled={isSubmitting} className="block mx-auto">
-            Log In
+            Next
           </Button>
         </form>
         <p className="text-center mt-24 text-[#878787]">

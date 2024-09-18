@@ -9,6 +9,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Navigation from "../widgets/Navigation";
+import Card from "../widgets/Card";
 
 export default function MainPage() {
   const router = useRouter();
@@ -61,6 +62,7 @@ export default function MainPage() {
         </div>
 
         <UserCards />
+        <Card />
       </div>
 
       {/* White section */}
@@ -69,7 +71,7 @@ export default function MainPage() {
           ${
             isFullScreen
               ? "w-full h-[100svh] top-0 left-0 rounded-none"
-              : "w-[350px] h-[60svh] left-5"
+              : "w-[350px] h-[40svh] left-5"
           }`}
       >
         <div className="w-full flex items-center justify-between py-[18px] border-b border-[#00000010] px-5">

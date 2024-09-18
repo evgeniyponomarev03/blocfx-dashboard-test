@@ -9,7 +9,5 @@ export default withAuth({
 });
 
 export const config = {
-  matcher: [
-    '/((?!login|signup|api).*)', // Match all pages except login, signup, and api routes
-  ],
+  matcher: ["/((?!login|signup|confirm|api).*)"],
 };

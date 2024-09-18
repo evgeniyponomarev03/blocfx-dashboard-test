@@ -23,34 +23,16 @@ export const options: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: {
-          label: "Email:",
+        code: {
+          label: "code:",
           type: "text",
-          placeholder: "Email",
-        },
-        password: {
-          label: "Password:",
-          type: "password",
-          placeholder: "Your password",
+          placeholder: "code",
         },
       },
       async authorize(credentials): Promise<any> {
-        const { email, password } = credentials || {};
+        const { code } = credentials || {};
 
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email,
-              password,
-            }),
-          }
-        );
-        const data = await response.json();
+        const data = await verifyCode(code as string);
 
         if (data) {
           return {
@@ -125,6 +107,29 @@ async function refreshAccessToken(token: { refreshToken: string }) {
     return {
       ...token,
       error: "RefreshAccessTokenError",
+    };
+  }
+}
+
+async function verifyCode(code: string) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-code?code=${code}`,
+      {
+        method: "POST",
+      }
+    );
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw data;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Verify code error:", error);
+    return {
+      error: "Error",
     };
   }
 }
