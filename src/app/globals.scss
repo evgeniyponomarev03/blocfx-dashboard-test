@@ -27,8 +27,7 @@ input::-webkit-inner-spin-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  margin-top: -70px;
+  height: 30%;
 
 }
 
@@ -56,4 +55,16 @@ input::-webkit-inner-spin-button {
     font-size: 14px;
     text-align: center;
     margin-top: 10px;
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 }

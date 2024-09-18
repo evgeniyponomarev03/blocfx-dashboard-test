@@ -22,9 +22,9 @@ const UserCards = ({
 
   return (
     <div className="relative">
-      <div className="balance py-5 flex items-center gap-4 flex-nowrap overflow-x-scroll">
+      <div className="balance py-3 flex items-center gap-4 flex-nowrap overflow-x-scroll no-scrollbar">
         {pickedCurrency && (
-          <div className="p-2 absolute left-0 right-0 top-5 bottom-5 bg-white rounded-md text-black">
+          <div className="p-2 absolute left-0 right-0 top-3 bottom-5 bg-white rounded-md text-black h-[96px]">
             <button
               onClick={() => setPickedCurrency(null)}
               className="absolute right-2 top-2"
@@ -60,7 +60,7 @@ const UserCards = ({
           <div
             key={card.id}
             onClick={() => setPickedCurrency(card)}
-            className="card pt-2 pl-[14px] pr-[20px] pb-4 bg-white rounded-md text-[#51382F] min-w-[110px]"
+            className="card pt-2 px-4 pb-2 bg-white rounded-md text-[#51382F] min-w-[110px]"
           >
             <div className="flex items-center gap-2">
               <Image

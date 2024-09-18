@@ -11,7 +11,7 @@ const Navigation = ({ toggleFullScreen }: { toggleFullScreen: () => void }) => {
   return (
     <div
       className={
-        "w-full h-[10dvh] bg-white rounded-bl-2xl rounded-br-2xl py-5 px-8 absolute bottom-0 opacity-95 flex items-center gap-8 backdrop-blur-[2.5px]"
+        "w-[390px] min-h-[80px] bg-white rounded-bl-2xl rounded-br-2xl py-5 px-8 fixed bottom-0 opacity-95 flex items-center gap-8 backdrop-blur-[2.5px] z-10"
       }
     >
       <div
