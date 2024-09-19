@@ -72,7 +72,7 @@ export default function MainPage() {
     ${
       isFullScreen
         ? "w-[390px] h-[100svh] top-0 rounded-none z-100"
-        : "max-h-[calc(50svh-100px)] left-5 "
+        : "max-h-[calc(50svh-100px)] h-[40svh] left-5 "
     }`}
       >
         <div className="w-full flex items-center justify-between py-3 border-b border-[#00000010] px-5">

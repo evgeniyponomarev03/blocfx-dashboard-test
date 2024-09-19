@@ -18,45 +18,41 @@ import { formatBalance } from "@/utils/formatBalance";
 import Icons from "@/assets/icons";
 
 const orderCardSchema = yup.object().shape({
-  address: yup.string().required("IBAN is required."),
-  name: yup.string().required("Name is required"),
+  address: yup
+    .string()
+    .required("Address is required")
+    .min(10, "Address must be at least 10 characters")
+    .max(100, "Address must be at most 100 characters")
+    .matches(/^[a-zA-Z0-9\s,.'-]{3,}$/, "Address contains invalid characters"),
+  holderName: yup
+    .string()
+    .required("Enter your Full Name")
+    .matches(/^[a-zA-Z ]+$/, "Only letters are allowed")
+    .test("is-full-name", "Please enter your full name", (value) => {
+      return value?.trim().split(" ").length >= 2;
+    }),
 });
 
 type OrderCardValues = {
   address: string;
-  name: string;
+  holderName: string;
 };
 
-const TransferPage = () => {
+const OrderCardPage = () => {
   const router = useRouter();
-  const session = useSession();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    control,
   } = useForm<OrderCardValues>({
     mode: "all",
     shouldUnregister: false,
     resolver: yupResolver(orderCardSchema),
   });
-  const [currency, setCurrency] = useState<keyof typeof CURRENCIES>("USD");
-  const [balanceData, setBalanceData] = useState<null | any>(null);
-  const [isBalanceLoading, setIsBalanceLoading] = useState(false);
-
-  const balance = balanceData?.data?.balance;
-
-  useEffect(() => {
-    setIsBalanceLoading(true);
-    api
-      .get(`/users/cards/balance?currency=${currency}`)
-      .then((res) => setBalanceData(res.data))
-      .finally(() => setIsBalanceLoading(false));
-  }, [currency]);
 
   const onSubmit = async (values: OrderCardValues) => {
     try {
-      await api.post("/transfers", {
+      await api.post("/users/cards/order", {
         ...values,
       });
       router.push("/success");
@@ -91,9 +87,9 @@ const TransferPage = () => {
             </p>
           </div>
           <div className="mb-[15px]">
-            <Input {...register("name")} label="Name" />
+            <Input {...register("holderName")} label="Full name" />
             <p className="text-sm text-[red] opacity-50 min-h-4 md:min-h-6">
-              {errors?.name?.message}
+              {errors?.holderName?.message}
             </p>
           </div>
           <Button disabled={isSubmitting} className="block mx-auto mt-[174px]">
@@ -105,4 +101,4 @@ const TransferPage = () => {
   );
 };
 
-export default TransferPage;
+export default OrderCardPage;

@@ -16,11 +16,11 @@ const loginInSchema = yup.object().shape({
   email: yup.string().email("Invalid email.").required("Email is required."),
   phone: yup
     .string()
+    .required("Phone is required.")
     .matches(
-      /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
-      "Phone number is not valid"
-    )
-    .required("Phone is required."),
+      /^\+\d{1,14}$/,
+      "Phone number must start with + and contain up to 14 digits.",
+    ),
   // password: yup.string().min(4, "Minimum 4 chars."),
 });
 
