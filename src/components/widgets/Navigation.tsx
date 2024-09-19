@@ -44,7 +44,7 @@ const Navigation = ({ toggleFullScreen }: { toggleFullScreen: () => void }) => {
         />
         <p className={"text-[12px]"}>Transactions</p>
       </div>
-      <div
+      {/* <div
         className={
           "flex flex-col items-center justify-between h-full cursor-pointer"
         }
@@ -58,7 +58,7 @@ const Navigation = ({ toggleFullScreen }: { toggleFullScreen: () => void }) => {
           className={"w-[20px] h-[20px]"}
         />
         <p className={"text-[12px]"}>More</p>
-      </div>
+      </div> */}
     </div>
   );
 };

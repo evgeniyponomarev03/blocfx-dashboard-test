@@ -23,10 +23,6 @@ const TransactionsList = ({
   data: Transaction[];
   error: string | null;
 }) => {
-  if (error) {
-    return <div className="error-message">{error}</div>;
-  }
-
   const filteredData = useMemo(() => {
     if (!pickedCurrency) return data;
 
@@ -34,6 +30,10 @@ const TransactionsList = ({
       (transaction) => transaction.currency === pickedCurrency
     );
   }, [pickedCurrency, data]);
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
 
   return (
     <div className="overflow-scroll w-full h-full">

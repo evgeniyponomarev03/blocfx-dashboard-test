@@ -1,7 +1,6 @@
 import { Roboto } from "next/font/google";
 import { NextFontWithVariable } from "next/dist/compiled/@next/font";
 import { NextAuthProvider } from "@/providers/next-auth-provider";
-import ReduxProvider from "@/redux/reduxProvider";
 import "./globals.scss";
 
 const roboto_init = Roboto({
@@ -19,9 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${(roboto_init as NextFontWithVariable).variable}`}>
-        <NextAuthProvider>
-          <ReduxProvider>{children}</ReduxProvider>
-        </NextAuthProvider>
+        <NextAuthProvider>{children}</NextAuthProvider>
       </body>
     </html>
   );
