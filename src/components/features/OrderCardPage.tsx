@@ -57,7 +57,7 @@ const OrderCardPage = () => {
       });
       router.push("/success");
     } catch (err) {
-      console.log(err);
+      console.error(err);
       alert((err as any).response.data.message);
     }
   };

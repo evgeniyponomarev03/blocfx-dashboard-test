@@ -11,11 +11,14 @@ import { formatBalance } from "@/utils/formatBalance";
 const UserCards = ({
   data,
   error,
+  pickedCurrency,
+  setPickedCurrency,
 }: {
   data: UserCard[];
+  pickedCurrency: null | UserCard;
+  setPickedCurrency: (currency: null | UserCard) => void;
   error: string | null;
 }) => {
-  const [pickedCurrency, setPickedCurrency] = useState<null | UserCard>(null);
   if (error) {
     return <div className="error-message">{error}</div>;
   }

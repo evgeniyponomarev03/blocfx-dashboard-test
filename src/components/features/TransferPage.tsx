@@ -12,7 +12,6 @@ import CountryAutocomplete from "../ui/CountryAutocomplete";
 import { useEffect, useState } from "react";
 import api from "@/axios/api";
 import CURRENCIES from "@/constants/currencies";
-import Navigation from "../widgets/Navigation";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { formatBalance } from "@/utils/formatBalance";
@@ -80,7 +79,7 @@ const TransferPage = () => {
       });
       router.push("/success");
     } catch (err) {
-      console.log(err);
+      console.error(err);
       alert((err as any).response.data.message);
     }
   };
@@ -190,7 +189,7 @@ const TransferPage = () => {
                 {errors?.country?.message}
               </p>
             </div>
-            <Button disabled={isSubmitting} className="block mx-auto">
+            <Button loading={isSubmitting} className="block mx-auto">
               Send
             </Button>
           </form>

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const colors = require('tailwindcss/colors');
 
 const config: Config = {
   content: [
@@ -19,6 +20,7 @@ const config: Config = {
       poppins: ["var(--font-poppins)", "Arial", "sans-serif"],
     },
     colors: {
+      ...colors,
       transparent: "transparent",
       white: "#fff",
       black: "#121214",
@@ -67,11 +69,26 @@ const config: Config = {
             transform: "scale(1.15)",
           },
         },
+        cardAnimation: {
+          "0%": {
+            boxShadow: "0px 4px 4px 8px #00000040",
+            borderRadius: "22px",
+          },
+          "50%": {
+            boxShadow: "0px 4px 4px 0px #00000040",
+            borderRadius: "22px",
+          },
+          "100%": {
+            boxShadow: "0px 4px 4px 8px #00000040",
+            borderRadius: "22px",
+          },
+        },
       },
       animation: {
         horizontalScroll: "horizontalScroll 27s linear infinite",
         "start-pulse": "startPulse 3s linear infinite alternate",
         "animate-pulse": "pulse 3s linear infinite",
+        cardAnimation: "cardAnimation 2s ease-in-out infinite",
       },
     },
   },

@@ -13,13 +13,20 @@ import PhoneNumberInput from "../ui/PhoneInput";
 import api from "@/axios/api";
 
 const loginInSchema = yup.object().shape({
-  email: yup.string().email("Invalid email.").required("Email is required."),
+  email: yup
+    .string()
+    .email("Invalid email.")
+    .required("Email is required.")
+    .matches(
+      /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+      "Email must be in lowercase.",
+    ),
   phone: yup
     .string()
     .required("Phone is required.")
     .matches(
       /^\+\d{1,14}$/,
-      "Phone number must start with + and contain up to 14 digits.",
+      "Phone number must start with + and contain up to 14 digits."
     ),
   // password: yup.string().min(4, "Minimum 4 chars."),
 });
@@ -119,7 +126,7 @@ const Login = () => {
               {errors?.password?.message}
             </p>
           </div> */}
-          <Button disabled={isSubmitting} className="block mx-auto">
+          <Button loading={isSubmitting} className="block mx-auto">
             Next
           </Button>
         </form>

@@ -1,5 +1,5 @@
 // src/components/features/Transactions.tsx
-import React from "react";
+import { useMemo } from "react";
 import { fetchTransactions } from "@/services/transactionServices";
 import { Transaction } from "@/types/Transaction";
 import { formatDate } from "@/utils/formatDate";
@@ -9,7 +9,9 @@ import withLoading from "@/HOC/withLoading";
 const TransactionsList = ({
   data,
   error,
+  pickedCurrency,
 }: {
+  pickedCurrency: undefined | string;
   data: Transaction[];
   error: string | null;
 }) => {
@@ -17,9 +19,17 @@ const TransactionsList = ({
     return <div className="error-message">{error}</div>;
   }
 
+  const filteredData = useMemo(() => {
+    if (!pickedCurrency) return data;
+
+    return data.filter(
+      (transaction) => transaction.currency === pickedCurrency
+    );
+  }, [pickedCurrency, data]);
+
   return (
     <div className="overflow-scroll w-full h-full">
-      {data.map((transaction: Transaction) => (
+      {filteredData.map((transaction: Transaction) => (
         <div key={transaction.id} className="transaction-item pt-2 px-5 mb-2">
           <div className="flex justify-between items-center font-bold text-lg pb-1">
             <h2>{transaction.type}</h2>

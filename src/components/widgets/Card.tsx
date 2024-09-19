@@ -17,7 +17,6 @@ const Card = ({ fullScreen }: { fullScreen: boolean }) => {
   }, []);
 
   const getContent = () => {
-    console.log({ cardData: cardData?.data?.status });
     if (!cardData) return null;
 
     switch (cardData.data.status) {
@@ -25,14 +24,14 @@ const Card = ({ fullScreen }: { fullScreen: boolean }) => {
         return (
           <Link
             href="/card-order"
-            className="absolute left-1/2 bottom-12 -translate-x-1/2 font-bold spacing tracking-[2px] shadow-md p-2 w-2/3 rounded-xl text-center"
+            className="absolute left-1/2 bottom-12 -translate-x-1/2 font-thin text-sm spacing tracking-[2px] shadow-md p-2 w-2/3 rounded-xl text-center"
           >
             Order your card
           </Link>
         );
       case "Done":
         return (
-          <strong className="absolute left-1/2 bottom-12 -translate-x-1/2 font-bold spacing tracking-[2px] shadow-md p-2 w-3/4 rounded-xl text-center">
+          <strong className="absolute left-1/2 bottom-12 -translate-x-1/2 font-bold text-sm spacing tracking-[2px] shadow-md p-2 w-3/4 rounded-xl text-center">
             {cardData.data.cardNumber
               .replace(/\D/g, "")
               .replace(/(.{4})/g, "$1 ")
@@ -41,8 +40,8 @@ const Card = ({ fullScreen }: { fullScreen: boolean }) => {
         );
       case "InProgress":
         return (
-          <strong className="absolute left-1/2 bottom-12 -translate-x-1/2 font-bold spacing tracking-[2px] shadow-md p-2 w-3/4 rounded-xl text-center">
-           Your card in progress.
+          <strong className="absolute left-1/2 bottom-12 -translate-x-1/2 font-thin text-sm spacing tracking-[2px] shadow-md p-2 w-3/4 rounded-xl text-center">
+            Processing
           </strong>
         );
     }
@@ -54,7 +53,7 @@ const Card = ({ fullScreen }: { fullScreen: boolean }) => {
       }`}
     >
       <Image
-        className="object-cover"
+        className="object-cover animate-cardAnimation"
         src={Images.Card}
         alt="card"
         width={284}

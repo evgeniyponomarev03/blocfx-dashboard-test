@@ -10,11 +10,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Navigation from "../widgets/Navigation";
 import Card from "../widgets/Card";
+import { UserCard } from "@/types/UserCard";
 
 export default function MainPage() {
   const router = useRouter();
   const { data: session } = useSession();
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [pickedCurrency, setPickedCurrency] = useState<null | UserCard>(null);
+  const pickedCurrencyChar = pickedCurrency?.currency;
 
   const toggleFullScreen = () => setIsFullScreen((prev) => !prev);
 
@@ -62,7 +65,10 @@ export default function MainPage() {
           />
         </div>
 
-        <UserCards />
+        <UserCards
+          pickedCurrency={pickedCurrency}
+          setPickedCurrency={setPickedCurrency}
+        />
         <Card fullScreen={isFullScreen} />
       </div>
 
@@ -84,7 +90,7 @@ export default function MainPage() {
             {isFullScreen ? "Close" : "View all"}
           </button>
         </div>
-        <TransactionsList />
+        <TransactionsList pickedCurrency={pickedCurrencyChar} />
       </div>
       <Navigation toggleFullScreen={toggleFullScreen} />
     </div>
