@@ -10,8 +10,8 @@ const api = axios.create({
 api.interceptors.request.use(async (config) => {
   const session = await getSession();
 
-  config.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTZjYWE2MS1mZTRlLTRjMDYtYmRhNC04Nzc2ZDJiZWVhNjQiLCJlbWFpbCI6InRlc3QzQGdtYWlsLmNvbSIsImlhdCI6MTcyNjczOTI3NSwiZXhwIjoxNzI3MzQ0MDc1fQ.OuzvZAKEmdZ9W8b83W5um7lUsarPWEVYQ_6RFRASdOE`;
   if (session?.accessToken) {
+    config.headers.Authorization = `Bearer ${session.accessToken}`;
   }
 
   return config;
@@ -27,14 +27,12 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       const session = await getSession();
-      const refreshedSession = await refreshAccessToken(
-        (session as any)?.refreshToken
-      );
+      const refreshedSession = await refreshAccessToken((session as any)?.refreshToken);
 
-      originalRequest.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTZjYWE2MS1mZTRlLTRjMDYtYmRhNC04Nzc2ZDJiZWVhNjQiLCJlbWFpbCI6InRlc3QzQGdtYWlsLmNvbSIsImlhdCI6MTcyNjczOTI3NSwiZXhwIjoxNzI3MzQ0MDc1fQ.OuzvZAKEmdZ9W8b83W5um7lUsarPWEVYQ_6RFRASdOE`;
-      // if (refreshedSession) {
-      //   return api(originalRequest); // Retry the original request with new token
-      // }
+      if (refreshedSession) {
+        originalRequest.headers.Authorization = `Bearer ${refreshedSession.accessToken}`;
+        return api(originalRequest); // Retry the original request with new token
+      }
     }
 
     return Promise.reject(error);
