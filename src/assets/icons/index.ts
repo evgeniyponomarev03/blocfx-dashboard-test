@@ -14,6 +14,9 @@ import ShowMore from "./show_more.svg";
 import Quit from "./quit.svg";
 import Close from "./close.svg";
 import ArrowBack from "./arrow-back.svg";
+import CashIn from "./cash-in.svg";
+import Exchange from "./exchange.svg";
+import TransferTransaction from "./transfer.svg";
 
 const Icons = {
   LogoBlack,
@@ -32,6 +35,9 @@ const Icons = {
   Quit,
   Close,
   ArrowBack,
+  CashIn,
+  Exchange,
+  TransferTransaction,
 };
 
 export default Icons;
